@@ -13,13 +13,13 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: const Text('Welcome to our restaurant!'),
+            title: const Text('Welcome to restaurant!'),
             automaticallyImplyLeading: false,
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.shop),
-            title: const Text('Restaurant'),
+            title: const Text('OrderFood'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },

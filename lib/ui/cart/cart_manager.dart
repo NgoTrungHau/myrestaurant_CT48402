@@ -8,7 +8,7 @@ class CartManager with ChangeNotifier {
     'p1': CartItem(
       id: 'c1',
       title: 'Phở',
-      price: 49.99,
+      price: 3.99,
       quantity: 2,
       imageUrl: "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
     ),
@@ -16,7 +16,7 @@ class CartManager with ChangeNotifier {
 
   int get productCount {
     return _items.length;
-  } 
+  }
 
   List<CartItem> get products {
     return _items.values.toList();
@@ -34,12 +34,23 @@ class CartManager with ChangeNotifier {
      return total;
   }
 
-  void addItem(Product product) {
+  
+  double totalAmountItem(String productId) {
+    var total = 0.0;
+    _items.forEach((key, cartItem) {
+      if (key == productId) {
+        total += cartItem.price * cartItem.quantity;
+      }
+     });
+     return total;
+  }
+
+  void addItem(Product product, int i) {
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id!,
         (existingCartItem) => existingCartItem.copyWith(
-          quantity: existingCartItem.quantity + 1,
+          quantity: existingCartItem.quantity + i,
         ),
       );
     } else {
@@ -49,12 +60,59 @@ class CartManager with ChangeNotifier {
           id: 'c${DateTime.now().toIso8601String()}',
           title: product.title,
           price: product.price,
-          quantity: 1,
+          quantity: i,
           imageUrl: product.imageURL,
         )
       );
     }
     notifyListeners();
+  }
+
+  void plusQuantity(String productId, CartItem cartItem) {
+    _items.update(
+      productId,
+        (existingCartItem) => existingCartItem.copyWith(
+          quantity: existingCartItem.quantity + 1,
+        ),
+    );
+  }
+
+  void minusQuantity(BuildContext context, String productId, CartItem cartItem) {
+    _items.forEach((key, cartItem) {
+      if (key == productId) {
+        if (cartItem.quantity > 1) {
+          _items.update(
+            productId,
+              (existingCartItem) => existingCartItem.copyWith(
+                quantity: existingCartItem.quantity - 1,
+              ),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Are you sure?'),
+              content: Text('Do you want to remove the item from the cart?'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('No'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(false);
+                  },
+                ),
+                TextButton(
+                  child: const Text('Yes'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(true);
+                    removeItem(productId);
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    });
   }
 
   void removeItem(String productId) {
@@ -78,6 +136,11 @@ class CartManager with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  CartItem? getCartItem(String productId) {
+    return _items[productId];
+  }
+
 
   void clear() {
     _items = {};

@@ -1,13 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/cart_item.dart';
+import '../../models/product.dart';
 import '../orders/orders_manager.dart';
 import 'cart_manager.dart';
 import 'cart_item_card.dart';
 
-class CartScreen extends StatelessWidget {
-  static const routeName = '/cart';
 
-  const CartScreen({super.key});
+StreamController<int> streamController = StreamController<int>();
+
+class CartScreen extends StatefulWidget {
+  static const routeName = '/cart';
+  
+  const CartScreen(
+    {super.key}
+  );
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+
+
+  @override
+  void initState() {
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +47,18 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget buildCartDetails(CartManager cart) {
     return ListView(
       children: cart.productEntries.map(
         (entry) => CartItemCard(
           productId: entry.key,
-          cardItem: entry.value,
+          cartItem: entry.value, 
         ),
       ).toList(),
     );
   }
+
   Widget buildCartSummary(CartManager cart, BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(15),
@@ -72,7 +94,12 @@ class CartScreen extends StatelessWidget {
               style: TextButton.styleFrom(
                 textStyle: TextStyle(color: Theme.of(context).primaryColor),
               ),
-              child: const Text('ORDER NOW'),
+              child: const Text(
+                'ORDER NOW',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )
+              ),
             )
           ]
         )

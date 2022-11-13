@@ -48,6 +48,7 @@ class ProductDetailScreen extends StatelessWidget {
                 softWrap: true,
               )
             )
+            
           ]
         )
       )

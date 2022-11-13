@@ -10,6 +10,7 @@ class CartItem {
     required this.title,
     required this.quantity,
     required this.price,
+
     required this.imageUrl,
   });
 
@@ -24,6 +25,7 @@ class CartItem {
       title: title ?? this.title,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
+
       imageUrl: this.imageUrl,
     );
   }

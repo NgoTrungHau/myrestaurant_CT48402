@@ -16,6 +16,8 @@ class Product {
     required this.imageURL,
     isFavorite = false,
   }) : _isFavorite = ValueNotifier(isFavorite);
+
+  Object? get quantity => null;
   
   set isFavorite(bool newValue) {
     _isFavorite.value = newValue;

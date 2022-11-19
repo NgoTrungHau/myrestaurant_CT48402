@@ -3,32 +3,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/cart_item.dart';
-import '../../models/product.dart';
 import '../orders/orders_manager.dart';
 import 'cart_manager.dart';
 import 'cart_item_card.dart';
-
 
 StreamController<int> streamController = StreamController<int>();
 
 class CartScreen extends StatefulWidget {
   static const routeName = '/cart';
-  
-  const CartScreen(
-    {super.key}
-  );
+
+  const CartScreen({super.key});
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-
-
-  @override
-  void initState() {
-  }
-
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartManager>();
@@ -50,60 +39,59 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget buildCartDetails(CartManager cart) {
     return ListView(
-      children: cart.productEntries.map(
-        (entry) => CartItemCard(
-          productId: entry.key,
-          cartItem: entry.value, 
-        ),
-      ).toList(),
+      children: cart.productEntries
+          .map(
+            (entry) => CartItemCard(
+              productId: entry.key,
+              cartItem: entry.value,
+            ),
+          )
+          .toList(),
     );
   }
 
   Widget buildCartSummary(CartManager cart, BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(15),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Text(
-              'Total',
-              style: TextStyle(fontSize: 20),
-            ),
-            const Spacer(),
-            Chip(
-              label: Text(
-                '\$${cart.totalAmount.toStringAsFixed(2)}',
-                style: TextStyle(
-                  color: Theme.of(context).primaryTextTheme.headline6?.color,
-                ),
-              ),
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            TextButton(
-              onPressed: cart.totalAmount <= 0
-              ? null
-              : () {
-                context.read<OrdersManager>().addOrder(
-                  cart.products,
-                  cart.totalAmount,
-                );
-                cart.clear();
-              },
-              style: TextButton.styleFrom(
-                textStyle: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              child: const Text(
-                'ORDER NOW',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )
-              ),
-            )
-          ]
-        )
-      )
-    );
+        margin: const EdgeInsets.all(15),
+        child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text(
+                    'Total',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const Spacer(),
+                  Chip(
+                    label: Text(
+                      '\$${cart.totalAmount.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color:
+                            Theme.of(context).primaryTextTheme.headline6?.color,
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                  TextButton(
+                    onPressed: cart.totalAmount <= 0
+                        ? null
+                        : () {
+                            context.read<OrdersManager>().addOrder(
+                                  cart.products,
+                                  cart.totalAmount,
+                                );
+                            cart.clear();
+                          },
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                    child: const Text('ORDER NOW',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        )),
+                  )
+                ])));
   }
 }

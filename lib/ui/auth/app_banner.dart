@@ -9,35 +9,36 @@ class AppBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color c = Color.fromRGBO(76, 255, 204, 0);
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20.0),
-      padding: const EdgeInsets.symmetric(
-        vertical: 10.0,
-        horizontal: 54.0,
-      ),
-      transform: Matrix4.rotationZ(0 * pi / 180)..translate(0.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Color.fromARGB(255, 255, 30, 30),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 8,
-            color: Colors.black26,
-            offset: Offset(0, 2),
-          )
-        ],
-      ),
-      child: Text(
-        'MyRestaurant',
-        style: TextStyle(
-          color: Colors.orange,
-          // color: Theme.of(context).textTheme.headline6?.color,
-          fontSize: 35,
-          fontFamily: 'Anton',
-          fontWeight: FontWeight.normal,
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 40.0,
+          ),
+          width: 300,
+          height: 300,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/chef1.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
         ),
-      ),
+        // Positioned(
+        //     child: Container(
+        //   margin: const EdgeInsets.all(50),
+        //   child: const Center(
+        //     child: Text(
+        //       "My Restaurant",
+        //       style: TextStyle(
+        //           color: Colors.white,
+        //           fontSize: 40,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //   ),
+        // )),
+      ],
     );
   }
 }

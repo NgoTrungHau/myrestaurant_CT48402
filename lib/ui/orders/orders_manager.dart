@@ -4,17 +4,18 @@ import '../../models/cart_item.dart';
 import '../../models/order_item.dart';
 
 class OrdersManager with ChangeNotifier {
-  final List<OrderItem> _orders =[
+  final List<OrderItem> _orders = [
     OrderItem(
       id: 'o1',
-      amount: 59.98,
+      amount: 7.98,
       products: [
         CartItem(
           id: 'c1',
           title: 'Pho',
-          price: 49.99,
+          price: 3.99,
           quantity: 2,
-          imageUrl: "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
+          imageUrl:
+              "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
         )
       ],
       dateTime: DateTime.now(),
@@ -30,14 +31,13 @@ class OrdersManager with ChangeNotifier {
 
   void addOrder(List<CartItem> cartProducts, double total) async {
     _orders.insert(
-      0,
-      OrderItem(
-        id: 'o${DateTime.now().toIso8601String()}',
-        amount: total,
-        products: cartProducts,
-        dateTime: DateTime.now(),
-      )
-    );
+        0,
+        OrderItem(
+          id: 'o${DateTime.now().toIso8601String()}',
+          amount: total,
+          products: cartProducts,
+          dateTime: DateTime.now(),
+        ));
     notifyListeners();
   }
 }

@@ -50,26 +50,20 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                 children: <Widget>[
                   IconButton(
                     color: Colors.red,
-                    icon: new Icon(Icons.remove, size:33),
+                    icon: const Icon(Icons.remove, size:33),
                     onPressed: (() {
-                      setState(() {
-                        i--;
-                      });
-                      print(i);
+                      if(i>1) {
+                        setState(() {
+                          i--;
+                        });
+                        print(i);
+                      }
                     }),
                   ),
                   Container(
                     width: 50.0,
                     height: 24.0,
                     child: Center(
-                      // child: Text(
-                      //   '${i}',
-                      //   style: TextStyle(
-                      //     fontSize: 16,
-                      //     color: Colors.black,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
                       child: TextField(
                         textAlign: TextAlign.center,
                         controller: TextEditingController()
@@ -92,12 +86,14 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                   ),
                   IconButton(
                     color: Colors.blue,
-                    icon: new Icon(Icons.add, size:33),
+                    icon: const Icon(Icons.add, size:33),
                     onPressed: (() {
-                      setState(() {
-                        i++;
-                      });
-                      print(i);
+                      if(i<99) {
+                        setState(() {
+                          i++;
+                        });
+                        print(i);
+                      }
                     }),
                   )
                 ]

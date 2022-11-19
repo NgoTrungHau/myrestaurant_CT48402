@@ -141,7 +141,9 @@ class _EditProductScreenState extends State<EditProductScreen>{
         return null;
       },
       onSaved: (value) {
+        
         _editedProduct = _editedProduct.copyWith(title: value);
+        print(_editedProduct.title);
       },
     );
   }

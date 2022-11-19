@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../auth/auth_manager.dart';
 import '../orders/orders_screen.dart';
 import '../products/user_products_screen.dart';
+import '../reservations/reservations_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -22,6 +23,14 @@ class AppDrawer extends StatelessWidget {
             title: const Text('OrderFood'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.food_bank),
+            title: const Text('Reservations'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(ReservationScreen.routeName);
             },
           ),
           const Divider(),

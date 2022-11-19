@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/product.dart';
-import '../cart/cart_manager.dart';
 import '../shared/dialog_utils.dart';
 import 'products_detail_screen.dart';
 import 'products_manager.dart';
@@ -61,8 +60,7 @@ class ProductGridTile extends StatelessWidget {
         icon: const Icon(
           Icons.shopping_cart,
         ),
-        onPressed: () {
-          final cart = context.read<CartManager>();         
+        onPressed: () {  
           showAddNumberDialog(context,product);
         },
         color: Theme.of(context).colorScheme.secondary,

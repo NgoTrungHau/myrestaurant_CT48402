@@ -1,11 +1,11 @@
-class CartItem {
+class TableItem {
   final String id;
   final String title;
   final int quantity;
   final double price;
   final String imageUrl;
 
-  CartItem({
+  TableItem({
     required this.id,
     required this.title,
     required this.quantity,
@@ -13,13 +13,13 @@ class CartItem {
     required this.imageUrl,
   });
 
-  CartItem copyWith({
+  TableItem copyWith({
     String? id,
     String? title,
     int? quantity,
     double? price,
   }) {
-    return CartItem(
+    return TableItem(
       id: id ?? this.id,
       title: title ?? this.title,
       quantity: quantity ?? this.quantity,

@@ -30,7 +30,7 @@ class AuthScreen extends StatelessWidget {
           ),
           SingleChildScrollView(
             child: SizedBox(
-              height: deviceSize.height,
+              height: 650,
               width: deviceSize.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

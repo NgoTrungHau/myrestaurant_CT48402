@@ -4,15 +4,7 @@ import '../../models/cart_item.dart';
 import '../../models/product.dart';
 
 class CartManager with ChangeNotifier {
-  Map<String, CartItem> _items = {
-    'p1': CartItem(
-      id: 'c1',
-      title: 'Phở',
-      price: 3.99,
-      quantity: 2,
-      imageUrl: "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
-    ),
-  };
+  Map<String, CartItem> _items = {};
 
   int get productCount {
     return _items.length;
@@ -30,19 +22,18 @@ class CartManager with ChangeNotifier {
     var total = 0.0;
     _items.forEach((key, cartItem) {
       total += cartItem.price * cartItem.quantity;
-     });
-     return total;
+    });
+    return total;
   }
 
-  
   double totalAmountItem(String productId) {
     var total = 0.0;
     _items.forEach((key, cartItem) {
       if (key == productId) {
         total += cartItem.price * cartItem.quantity;
       }
-     });
-     return total;
+    });
+    return total;
   }
 
   void addItem(Product product, int i) {
@@ -55,15 +46,14 @@ class CartManager with ChangeNotifier {
       );
     } else {
       _items.putIfAbsent(
-        product.id!,
-        () => CartItem(
-          id: 'c${DateTime.now().toIso8601String()}',
-          title: product.title,
-          price: product.price,
-          quantity: i,
-          imageUrl: product.imageURL,
-        )
-      );
+          product.id!,
+          () => CartItem(
+                id: 'c${DateTime.now().toIso8601String()}',
+                title: product.title,
+                price: product.price,
+                quantity: i,
+                imageUrl: product.imageURL,
+              ));
     }
     notifyListeners();
   }
@@ -71,28 +61,31 @@ class CartManager with ChangeNotifier {
   void plusQuantity(String productId, CartItem cartItem) {
     _items.update(
       productId,
-        (existingCartItem) => existingCartItem.copyWith(
-          quantity: existingCartItem.quantity + 1,
-        ),
+      (existingCartItem) => existingCartItem.copyWith(
+        quantity: existingCartItem.quantity + 1,
+      ),
     );
+    notifyListeners();
   }
 
-  void minusQuantity(BuildContext context, String productId, CartItem cartItem) {
+  void minusQuantity(
+      BuildContext context, String productId, CartItem cartItem) {
     _items.forEach((key, cartItem) {
       if (key == productId) {
         if (cartItem.quantity > 1) {
           _items.update(
             productId,
-              (existingCartItem) => existingCartItem.copyWith(
-                quantity: existingCartItem.quantity - 1,
-              ),
+            (existingCartItem) => existingCartItem.copyWith(
+              quantity: existingCartItem.quantity - 1,
+            ),
           );
         } else {
           showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
               title: const Text('Are you sure?'),
-              content: Text('Do you want to remove the item from the cart?'),
+              content:
+                  const Text('Do you want to remove the item from the cart?'),
               actions: <Widget>[
                 TextButton(
                   child: const Text('No'),
@@ -113,6 +106,7 @@ class CartManager with ChangeNotifier {
         }
       }
     });
+    notifyListeners();
   }
 
   void removeItem(String productId) {
@@ -120,17 +114,16 @@ class CartManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSingleItem (String productId) {
-    if(!_items.containsKey(productId)) {
+  void removeSingleItem(String productId) {
+    if (!_items.containsKey(productId)) {
       return;
     }
-    if(_items[productId]?.quantity as num > 1) {
+    if (_items[productId]?.quantity as num > 1) {
       _items.update(
-        productId,
-        (existingCartItem) => existingCartItem.copyWith(
-          quantity: existingCartItem.quantity - 1,
-        )
-      );
+          productId,
+          (existingCartItem) => existingCartItem.copyWith(
+                quantity: existingCartItem.quantity - 1,
+              ));
     } else {
       _items.remove(productId);
     }
@@ -140,7 +133,6 @@ class CartManager with ChangeNotifier {
   CartItem? getCartItem(String productId) {
     return _items[productId];
   }
-
 
   void clear() {
     _items = {};

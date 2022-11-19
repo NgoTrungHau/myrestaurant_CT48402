@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_myrestaurant/models/table.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/cart_item.dart';
+import '../../models/product.dart';
+import '../../models/table_item.dart';
 import '../../ui/cart/cart_manager.dart';
 import '../shared/dialog_utils.dart';
+import 'reservations_manager.dart';
 
-class CartItemCard extends StatefulWidget {
+class TableItemCard extends StatefulWidget {
   final String productId;
-  final CartItem cartItem;
+  final TableItem tableItem;
 
-  const CartItemCard({
+  const TableItemCard({
     required this.productId,
-    required this.cartItem,
+    required this.tableItem,
     super.key,
   });
 
   @override
-  State<CartItemCard> createState() => _CartItemCardState();
+  State<TableItemCard> createState() => _TableItemCardState();
 }
 
-class _CartItemCardState extends State<CartItemCard> {
-  CartItem? cartItem;
+class _TableItemCardState extends State<TableItemCard> {
+  TableItem? tableItem;
 
   @override
   void initState() {
-    cartItem = widget.cartItem;
+    super.initState();
+    tableItem = widget.tableItem;
   }
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(widget.cartItem.id),
+      key: ValueKey(widget.tableItem.id),
       background: Container(
         color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
@@ -53,14 +58,14 @@ class _CartItemCardState extends State<CartItemCard> {
         );
       },
       onDismissed: (direction) {
-        context.read<CartManager>().removeItem(widget.productId);
+        context.read<ReservationsManager>().removeItem(widget.productId);
       },
       child: buildItemCard(context),
     );
   }
 
   Widget buildItemCard(BuildContext context) {
-    final cart = context.read<CartManager>();
+    final table = context.read<ReservationsManager>();
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -70,25 +75,26 @@ class _CartItemCardState extends State<CartItemCard> {
         padding: const EdgeInsets.all(10),
         child: ListTile(
           leading: CircleAvatar(
-            backgroundImage: NetworkImage(widget.cartItem.imageUrl),
+            backgroundImage: NetworkImage(widget.tableItem.imageUrl),
           ),
-          title: Text(widget.cartItem.title),
+          title: Text(widget.tableItem.title),
           subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Price: \$${cartItem?.price}'),
+                Text('Price: \$${tableItem?.price}'),
                 Text(
-                    'Total: \$${cart.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
+                    'Total: \$${table.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
               icon: new Icon(Icons.remove, size: 30),
               color: Colors.red,
               onPressed: (() {
-                cart.minusQuantity(context, widget.productId, widget.cartItem);
+                table.minusQuantity(
+                    context, widget.productId, widget.tableItem);
                 setState(() {
-                  cartItem = cart.getCartItem(widget.productId);
-                  print(cartItem?.quantity);
+                  tableItem = table.getTableItem(widget.productId);
+                  print(tableItem?.quantity);
                 });
               }),
             ),
@@ -97,7 +103,7 @@ class _CartItemCardState extends State<CartItemCard> {
               height: 24.0,
               child: Center(
                 child: Text(
-                  '${cartItem?.quantity}',
+                  '${tableItem?.quantity}',
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
@@ -110,10 +116,10 @@ class _CartItemCardState extends State<CartItemCard> {
               color: Colors.blue,
               icon: new Icon(Icons.add, size: 30),
               onPressed: (() {
-                cart.plusQuantity(widget.productId, widget.cartItem);
+                table.plusQuantity(widget.productId, widget.tableItem);
                 setState(() {
-                  cartItem = cart.getCartItem(widget.productId);
-                  print(cartItem?.quantity);
+                  tableItem = table.getTableItem(widget.productId);
+                  print(tableItem?.quantity);
                 });
               }),
             ),

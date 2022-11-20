@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_myrestaurant/ui/screen.dart';
 import 'package:provider/provider.dart';
-import 'products_grid.dart';
+import 'dishes_grid.dart';
 import '../shared/app_drawer.dart';
 import 'top_right_badge.dart';
 
 enum FilterOptions { favorites, all }
 
-class ProductsOverviewScreen extends StatefulWidget {
-  const ProductsOverviewScreen({super.key});
+class DishesOverviewScreen extends StatefulWidget {
+  const DishesOverviewScreen({super.key});
 
   @override
-  State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
+  State<DishesOverviewScreen> createState() => _DishesOverviewScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _DishesOverviewScreenState extends State<DishesOverviewScreen> {
   final _showOnlyFavorites = ValueNotifier<bool>(false);
-  late Future<void> _fetchProducts;
+  late Future<void> _fetchDishes;
 
   @override
   void initState() {
     super.initState();
-    _fetchProducts = context.read<ProductsManager>().fetchProducts();
+    _fetchDishes = context.read<DishesManager>().fetchDishes();
   }
 
   @override
@@ -30,20 +30,20 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: const Text('MyRestaurant'),
         actions: <Widget>[
-          buildProductFilterMenu(),
+          buildDishFilterMenu(),
           buildShoppingCartIcon(),
         ],
       ),
       drawer: const AppDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: FutureBuilder(
-        future: _fetchProducts,
+        future: _fetchDishes,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return ValueListenableBuilder<bool>(
                 valueListenable: _showOnlyFavorites,
                 builder: (context, onlyFavorites, child) {
-                  return ProductsGrid(onlyFavorites);
+                  return DishesGrid(onlyFavorites);
                 });
           }
           return const Center(
@@ -57,7 +57,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget buildShoppingCartIcon() {
     return Consumer<CartManager>(builder: (ctx, cartManager, child) {
       return TopRightBadge(
-          data: cartManager.productCount,
+          data: cartManager.dishCount,
           child: IconButton(
             icon: const Icon(
               Icons.shopping_cart,
@@ -69,7 +69,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     });
   }
 
-  Widget buildProductFilterMenu() {
+  Widget buildDishFilterMenu() {
     return PopupMenuButton(
         onSelected: (FilterOptions selectedValue) {
           if (selectedValue == FilterOptions.favorites) {

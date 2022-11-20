@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../shared/dialog_utils.dart';
 
-import 'products_manager.dart';
+import 'dishes_manager.dart';
 
-class EditProductScreen extends StatefulWidget {
-  static const routeName = '/edit-product';
+class EditDishScreen extends StatefulWidget {
+  static const routeName = '/edit-dish';
 
-  EditProductScreen(
-    Product? product, {
+  EditDishScreen(
+    Dish? dish, {
       super.key,
     }) {
-      if (product == null) {
-        this.product = Product(
+      if (dish == null) {
+        this.dish = Dish(
           id: null,
           title: '',
           price: 0,
@@ -21,21 +21,21 @@ class EditProductScreen extends StatefulWidget {
           imageURL: '',
         );
       } else {
-        this.product = product;
+        this.dish = dish;
       }
     }
 
-    late final Product product;
+    late final Dish dish;
 
     @override
-    State<EditProductScreen> createState() => _EditProductScreenState();
+    State<EditDishScreen> createState() => _EditDishScreenState();
 }
 
-class _EditProductScreenState extends State<EditProductScreen>{
+class _EditDishScreenState extends State<EditDishScreen>{
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _editForm = GlobalKey<FormState>();
-  late Product _editedProduct;
+  late Dish _editedDish;
   var _isLoading = false;
 
   bool _isValidImageUrl(String value) {
@@ -52,8 +52,8 @@ class _EditProductScreenState extends State<EditProductScreen>{
         setState(() {});
       }
     });
-    _editedProduct = widget.product;
-    _imageUrlController.text = _editedProduct.imageURL;
+    _editedDish = widget.dish;
+    _imageUrlController.text = _editedDish.imageURL;
     super.initState();
   }
 
@@ -76,11 +76,11 @@ class _EditProductScreenState extends State<EditProductScreen>{
     });
 
     try {
-      final productsManager = context.read<ProductsManager>();
-      if (_editedProduct.id != null) {
-        await productsManager.updateProduct(_editedProduct);
+      final dishesManager = context.read<DishesManager>();
+      if (_editedDish.id != null) {
+        await dishesManager.updateDish(_editedDish);
       } else {
-        await productsManager.addProduct(_editedProduct);
+        await dishesManager.addDish(_editedDish);
       }
     } catch (error) {
       await showErrorDialog(context, 'Something went wrong.');
@@ -99,7 +99,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Product'),
+        title: const Text('Edit Dish'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),
@@ -121,7 +121,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
                   buildTitleField(),
                   buildPriceField(),
                   buildDescriptionField(),
-                  buildProductPreview(),
+                  buildDishPreview(),
                   buildImageURLField(),
                 ]
               )
@@ -132,7 +132,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
   
   TextFormField buildTitleField() {
     return TextFormField(
-      initialValue: _editedProduct.title,
+      initialValue: _editedDish.title,
       decoration: const InputDecoration(labelText: 'Title',),
       textInputAction: TextInputAction.next,
       autofocus: true,
@@ -144,15 +144,15 @@ class _EditProductScreenState extends State<EditProductScreen>{
       },
       onSaved: (value) {
         
-        _editedProduct = _editedProduct.copyWith(title: value);
-        print(_editedProduct.title);
+        _editedDish = _editedDish.copyWith(title: value);
+        print(_editedDish.title);
       },
     );
   }
   
   TextFormField buildPriceField() {
     return TextFormField(
-      initialValue: _editedProduct.price.toString(),
+      initialValue: _editedDish.price.toString(),
       decoration: const InputDecoration(labelText: 'Price'),
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
@@ -169,14 +169,14 @@ class _EditProductScreenState extends State<EditProductScreen>{
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(price: double.parse(value!));
+        _editedDish = _editedDish.copyWith(price: double.parse(value!));
       }
     );
   }
   
   TextFormField buildDescriptionField() {
     return TextFormField(
-      initialValue: _editedProduct.description,
+      initialValue: _editedDish.description,
       decoration: const InputDecoration(labelText: 'Description'),
       maxLines: 3,
       keyboardType: TextInputType.multiline,
@@ -190,12 +190,12 @@ class _EditProductScreenState extends State<EditProductScreen>{
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(description: value);
+        _editedDish = _editedDish.copyWith(description: value);
       }
     );
   }
   
-  Widget buildProductPreview() {
+  Widget buildDishPreview() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
@@ -243,7 +243,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
         return null;
       },
       onSaved: (value) {
-        _editedProduct = _editedProduct.copyWith(imageURL: value);
+        _editedDish = _editedDish.copyWith(imageURL: value);
       }
     );
   }

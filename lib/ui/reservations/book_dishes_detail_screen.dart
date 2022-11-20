@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../models/product.dart';
-import '../products/products_manager.dart';
+import '../../models/dish.dart';
+import '../dishes/dishes_manager.dart';
 import 'reservations_manager.dart';
 
-class BookProductDetailScreen extends StatefulWidget {
-  static const routeName = '/book-product-detail';
-  const BookProductDetailScreen(
-      this.product,
+class BookDishDetailScreen extends StatefulWidget {
+  static const routeName = '/book-dish-detail';
+  const BookDishDetailScreen(
+      this.dish,
     {
       super.key, 
     }
   );
 
-  final Product product;
+  final Dish dish;
 
   @override
-  State<BookProductDetailScreen> createState() => _BookProductDetailScreenState();
+  State<BookDishDetailScreen> createState() => _BookDishDetailScreenState();
 }
 
-class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
-  Product? product;
+class _BookDishDetailScreenState extends State<BookDishDetailScreen> {
+  Dish? dish;
 
   int i = 1;
 
   @override
   void initState() {
     super.initState();
-    product = widget.product;
+    dish = widget.dish;
   }
 
   @override
@@ -36,9 +36,9 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
     final cart = context.read<ReservationsManager>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.product.title),
+        title: Text(widget.dish.title),
         actions: [
-          buildFavoriteButton(context, product!)
+          buildFavoriteButton(context, dish!)
         ]
       ),
       body: SingleChildScrollView(
@@ -48,13 +48,13 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
               height:300,
               width: double.infinity,
               child: Image.network(
-                widget.product.imageURL,
+                widget.dish.imageURL,
                 fit: BoxFit.cover,
               )
             ),
             const SizedBox(height: 10,),
             Text(
-              '\$${widget.product.price}',
+              '\$${widget.dish.price}',
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 20,
@@ -67,7 +67,7 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               width: double.infinity,
               child: Text(
-                widget.product.description,
+                widget.dish.description,
                 textAlign: TextAlign.center,
                 softWrap: true,
               )
@@ -154,7 +154,7 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);
-                cart.addItem(product!,i);
+                cart.addItem(dish!,i);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
@@ -164,7 +164,7 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
                       action: SnackBarAction(
                         label: 'UNDO',
                         onPressed:() {
-                          cart.removeSingleItem(product!.id!);
+                          cart.removeSingleItem(dish!.id!);
                         },
                       )
                     )
@@ -178,9 +178,9 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
       )
     );
   }
-  Widget buildFavoriteButton(BuildContext context, Product product) {
+  Widget buildFavoriteButton(BuildContext context, Dish dish) {
   return ValueListenableBuilder<bool>(
-      valueListenable: product.isFavoriteListenable,
+      valueListenable: dish.isFavoriteListenable,
       builder: (ctx, isFavorite, child) {
         return IconButton(
           icon: Icon(
@@ -188,7 +188,7 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
           ),
           color: Colors.black,
           onPressed: () {
-            ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+            ctx.read<DishesManager>().toggleFavoriteStatus(dish);
           },
         );
       });

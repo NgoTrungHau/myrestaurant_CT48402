@@ -3,18 +3,18 @@ import 'table_item.dart';
 class ReservationItem {
   final String? id;
   final double amount;
-  final List<TableItem> products;
+  final List<TableItem> dishes;
   final String tableTitle;
   final DateTime dateTime;
 
-  int get productCount {
-    return products.length;
+  int get dishCount {
+    return dishes.length;
   }
 
   ReservationItem({
     this.id,
     required this.amount,
-    required this.products,
+    required this.dishes,
     required this.tableTitle,
     DateTime? dateTime,
   }) : dateTime = dateTime ?? DateTime.now();
@@ -22,14 +22,14 @@ class ReservationItem {
   ReservationItem copyWith({
     String? id,
     double? amount,
-    List<TableItem>? products,
+    List<TableItem>? dishes,
     String? tableTitle,
     DateTime? dateTime,
   }) {
     return ReservationItem(
       id: id ?? this.id,
       amount: amount ?? this.amount,
-      products: products ?? this.products,
+      dishes: dishes ?? this.dishes,
       tableTitle: tableTitle ?? this.tableTitle,
       dateTime: dateTime ?? this.dateTime,
     );
@@ -37,7 +37,7 @@ class ReservationItem {
 
   // Map<String, dynamic> toJson() {
   //   return {
-  //     'products': products,
+  //     'dishes': dishes,
   //     'table': tableTitle,
   //     'amount': amount,
   //   };
@@ -47,7 +47,7 @@ class ReservationItem {
   //   return ReservationItem(
   //     id: json['id'],
   //     amount: json['amount'],
-  //     products: json['products'],
+  //     dishes: json['dishes'],
   //     tableTitle: json['table'],
   //     dateTime: json['dateTime'],
   //   );

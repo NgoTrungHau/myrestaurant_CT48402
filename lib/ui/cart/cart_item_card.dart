@@ -6,11 +6,11 @@ import '../../ui/cart/cart_manager.dart';
 import '../shared/dialog_utils.dart';
 
 class CartItemCard extends StatefulWidget {
-  final String productId;
+  final String dishId;
   final CartItem cartItem;
 
   const CartItemCard({
-    required this.productId,
+    required this.dishId,
     required this.cartItem,
     super.key,
   });
@@ -53,7 +53,7 @@ class _CartItemCardState extends State<CartItemCard> {
         );
       },
       onDismissed: (direction) {
-        context.read<CartManager>().removeItem(widget.productId);
+        context.read<CartManager>().removeItem(widget.dishId);
       },
       child: buildItemCard(context),
     );
@@ -78,16 +78,16 @@ class _CartItemCardState extends State<CartItemCard> {
               children: <Widget>[
                 Text('Price: \$${cartItem?.price}'),
                 Text(
-                    'Total: \$${cart.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
+                    'Total: \$${cart.totalAmountItem(widget.dishId).toStringAsFixed(2)}'),
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
               icon: const Icon(Icons.remove, size: 30),
               color: Colors.red,
               onPressed: (() {
-                cart.minusQuantity(context, widget.productId, widget.cartItem);
+                cart.minusQuantity(context, widget.dishId, widget.cartItem);
                 setState(() {
-                  cartItem = cart.getCartItem(widget.productId);
+                  cartItem = cart.getCartItem(widget.dishId);
                   print(cartItem?.quantity);
                 });
               }),
@@ -110,9 +110,9 @@ class _CartItemCardState extends State<CartItemCard> {
               color: Colors.blue,
               icon: const Icon(Icons.add, size: 30),
               onPressed: (() {
-                cart.plusQuantity(widget.productId, widget.cartItem);
+                cart.plusQuantity(widget.dishId, widget.cartItem);
                 setState(() {
-                  cartItem = cart.getCartItem(widget.productId);
+                  cartItem = cart.getCartItem(widget.dishId);
                   print(cartItem?.quantity);
                 });
               }),

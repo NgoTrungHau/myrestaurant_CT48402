@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'edit_product_screen.dart';
-import 'user_products_list_tile.dart';
-import 'products_manager.dart';
+import 'edit_dish_screen.dart';
+import 'user_dishes_list_tile.dart';
+import 'dishes_manager.dart';
 import '../shared/app_drawer.dart';
 import 'package:provider/provider.dart';
 
-class UserProductsScreen extends StatelessWidget {
-  static const routeName = '/user-products';
-  const UserProductsScreen({super.key});
+class UserDishesScreen extends StatelessWidget {
+  static const routeName = '/user-dishes';
+  const UserDishesScreen({super.key});
 
-  Future<void> _refreshProducts(BuildContext context) async {
-    await context.read<ProductsManager>().fetchProducts(true);
+  Future<void> _refreshDishes(BuildContext context) async {
+    await context.read<DishesManager>().fetchDishes(true);
   }
 
   @override
@@ -25,7 +25,7 @@ class UserProductsScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: FutureBuilder(
-        future: _refreshProducts(context),
+        future: _refreshDishes(context),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -34,21 +34,21 @@ class UserProductsScreen extends StatelessWidget {
           }
           return RefreshIndicator(
             onRefresh: () async => print('refresh dishes'),
-            child: buildUserProductListView(),
+            child: buildUserDishListView(),
           );
         }
       )
     );
   }
-  Widget buildUserProductListView() {
-    return Consumer<ProductsManager>(
-      builder: (ctx, productsManager, child) {
+  Widget buildUserDishListView() {
+    return Consumer<DishesManager>(
+      builder: (ctx, dishesManager, child) {
         return ListView.builder(
-          itemCount: productsManager.itemCount,
+          itemCount: dishesManager.itemCount,
           itemBuilder: (ctx, i) => Column(
             children: [
-              UserProductListTile(
-                productsManager.items[i],
+              UserDishListTile(
+                dishesManager.items[i],
               ),
               const Divider(),
             ],
@@ -62,7 +62,7 @@ class UserProductsScreen extends StatelessWidget {
       icon: const Icon(Icons.add),
       onPressed: () {
         Navigator.of(context).pushNamed(
-          EditProductScreen.routeName,
+          EditDishScreen.routeName,
         );
       },
     );

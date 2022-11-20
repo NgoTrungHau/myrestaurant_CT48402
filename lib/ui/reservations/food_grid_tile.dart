@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 
-import '../../models/product.dart';
+import '../../models/dish.dart';
 
-import '../products/products_detail_screen.dart';
+import '../dishes/dishes_detail_screen.dart';
 
 
 class FoodListTile extends StatefulWidget {
 
   const FoodListTile(
-    this.product, {
+    this.dish, {
       super.key, 
     }
   );
 
 
-  final Product product;
+  final Dish dish;
 
   @override
   State<FoodListTile> createState() => _FoodListTileState();
 }
 
 class _FoodListTileState extends State<FoodListTile> {
-  Product? product ;
+  Dish? dish ;
 
 
   @override
   void initState() {
     super.initState();
-    product = widget.product;
+    dish = widget.dish;
   }
 
   @override
@@ -38,12 +38,12 @@ class _FoodListTileState extends State<FoodListTile> {
         child: GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(
-              ProductDetailScreen.routeName,
-              arguments: product?.id,
+              DishDetailScreen.routeName,
+              arguments: dish?.id,
             );
           },
           child: Image.network(
-            product!.imageURL,
+            dish!.imageURL,
             fit: BoxFit.cover,
           )
         )

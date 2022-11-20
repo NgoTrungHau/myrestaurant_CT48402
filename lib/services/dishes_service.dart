@@ -2,57 +2,57 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/product.dart';
+import '../models/dish.dart';
 import '../models/auth_token.dart';
 
 import 'firebase_service.dart';
 
-class ProductsService extends FirebaseService {
-  ProductsService([AuthToken? authToken]) : super(authToken);
+class DishesService extends FirebaseService {
+  DishesService([AuthToken? authToken]) : super(authToken);
 
-  Future<List<Product>> fetchProducts([bool filterByUser = false]) async {
-    final List<Product> products = [];
+  Future<List<Dish>> fetchDishes([bool filterByUser = false]) async {
+    final List<Dish> dishes = [];
     try {
       final filters = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
-      final productsUrl = Uri.parse('$databaseUrl/products.json?auth=$token&$filters');
-      final response = await http.get(productsUrl);
-      final productsMap = json.decode(response.body) as Map<String, dynamic>;
+      final dishesUrl = Uri.parse('$databaseUrl/dishes.json?auth=$token&$filters');
+      final response = await http.get(dishesUrl);
+      final dishesMap = json.decode(response.body) as Map<String, dynamic>;
 
       if (response.statusCode != 200) {
-        print(productsMap['error']);
-        return products;
+        print(dishesMap['error']);
+        return dishes;
       }
 
       final userFavoritesUrl = Uri.parse('$databaseUrl/userFavorites/$userId.json?auth=$token');
       final userFavoritesResponse = await http.get(userFavoritesUrl);
       final userFavoritesMap = json.decode(userFavoritesResponse.body);
 
-      productsMap.forEach((productId, product)
+      dishesMap.forEach((dishId, dish)
       {
         final isFavorite = (userFavoritesMap == null)
             ? false
-            : (userFavoritesMap[productId] ?? false);
-        products.add(
-          Product.fromJson({
-            'id': productId,
-            ...product,
+            : (userFavoritesMap[dishId] ?? false);
+        dishes.add(
+          Dish.fromJson({
+            'id': dishId,
+            ...dish,
           }).copyWith(isFavorite: isFavorite),
         );
       });
-      return products;
+      return dishes;
     } catch (error) {
       print(error);
-      return products;
+      return dishes;
     }
   }
 
-  Future<Product?> addProduct(Product product) async {
+  Future<Dish?> addDish(Dish dish) async {
     try {
-      final url = Uri.parse('$databaseUrl/products.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/dishes.json?auth=$token');
       final response = await http.post(
         url,
         body: json.encode(
-          product.toJson()
+          dish.toJson()
             ..addAll({
               'creatorId': userId,
             }),
@@ -63,7 +63,7 @@ class ProductsService extends FirebaseService {
         throw Exception(json.decode(response.body)['error']);
       }
 
-      return product.copyWith(
+      return dish.copyWith(
         id: json.decode(response.body)['name'],
       );
     } catch (error) {
@@ -72,12 +72,12 @@ class ProductsService extends FirebaseService {
     }
   }
 
-  Future<bool> updateProduct(Product product) async {
+  Future<bool> updateDish(Dish dish) async {
     try {
-      final url = Uri.parse('$databaseUrl/products/${product.id}.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/dishes/${dish.id}.json?auth=$token');
       final response = await http.patch(
         url,
-        body: json.encode(product.toJson()),
+        body: json.encode(dish.toJson()),
       );
 
       if(response.statusCode != 200) {
@@ -91,9 +91,9 @@ class ProductsService extends FirebaseService {
     }
   }
 
-  Future<bool> deleteProduct(String id) async {
+  Future<bool> deleteDish(String id) async {
     try {
-      final url = Uri.parse('$databaseUrl/products/$id.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/dishes/$id.json?auth=$token');
       final response = await http.delete(url);
 
       if(response.statusCode != 200) {
@@ -107,13 +107,13 @@ class ProductsService extends FirebaseService {
     }
   }
 
-  Future<bool> saveFavoriteStatus(Product product) async {
+  Future<bool> saveFavoriteStatus(Dish dish) async {
     try {
-      final url = Uri.parse('$databaseUrl/userFavorites/$userId/${product.id}.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/userFavorites/$userId/${dish.id}.json?auth=$token');
       final response = await http.put(
         url,
         body: json.encode(
-          product.isFavorite,
+          dish.isFavorite,
         ),
       );
 

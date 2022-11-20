@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/product.dart';
-import 'book_products_detail_screen.dart';
+import '../../models/dish.dart';
+import 'book_dishes_detail_screen.dart';
 import 'reservations_manager.dart';
 
-class BookProductsGridTile extends StatefulWidget {
-  const BookProductsGridTile(
-    this.product, {
+class BookDishesGridTile extends StatefulWidget {
+  const BookDishesGridTile(
+    this.dish, {
     super.key,
   });
 
-  final Product product;
+  final Dish dish;
 
   @override
-  State<BookProductsGridTile> createState() => _BookProductsGridTileState();
+  State<BookDishesGridTile> createState() => _BookDishesGridTileState();
 }
 
-class _BookProductsGridTileState extends State<BookProductsGridTile> {
+class _BookDishesGridTileState extends State<BookDishesGridTile> {
   @override
   void initState() {
     super.initState();
@@ -32,12 +32,12 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
             child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(
-                    BookProductDetailScreen.routeName,
-                    arguments: widget.product.id,
+                    BookDishDetailScreen.routeName,
+                    arguments: widget.dish.id,
                   );
                 },
                 child: Image.network(
-                  widget.product.imageURL,
+                  widget.dish.imageURL,
                   fit: BoxFit.cover,
                 ))));
   }
@@ -48,13 +48,13 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
               color: Colors.black.withOpacity(0.5),
               height: 35,
       child: GridTileBar(
-        title: Text(widget.product.title,
+        title: Text(widget.dish.title,
             textAlign: TextAlign.left,
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             )),
-        subtitle: Text('\$${widget.product.price}',
+        subtitle: Text('\$${widget.dish.price}',
             textAlign: TextAlign.left,
             style: const TextStyle(
               color: Color.fromARGB(255, 207, 207, 207),
@@ -65,7 +65,7 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
           ),
           onPressed: () {
             final cart = context.read<ReservationsManager>();
-            cart.addItem(widget.product, 1);
+            cart.addItem(widget.dish, 1);
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
@@ -74,7 +74,7 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
                   action: SnackBarAction(
                     label: 'UNDO',
                     onPressed: () {
-                      cart.removeSingleItem(widget.product.id!);
+                      cart.removeSingleItem(widget.dish.id!);
                     },
                   )));
           },

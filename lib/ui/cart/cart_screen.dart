@@ -43,10 +43,10 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget buildCartDetails(CartManager cart) {
     return ListView(
-      children: cart.productEntries
+      children: cart.dishEntries
           .map(
             (entry) => CartItemCard(
-              productId: entry.key,
+              dishId: entry.key,
               cartItem: entry.value,
             ),
           )
@@ -82,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
                         ? null
                         : () {
                             context.read<OrdersManager>().addOrder(
-                                  cart.products,
+                                  cart.dishes,
                                   cart.totalAmount,
                                 );
                             cart.clear();

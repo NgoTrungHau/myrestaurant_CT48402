@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'ui/reservations/book_products_detail_screen.dart';
+import 'ui/reservations/book_dishes_detail_screen.dart';
 import 'ui/screen.dart';
 
 Future<void> main() async {
@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => AuthManager(),
           ),
-          ChangeNotifierProxyProvider<AuthManager, ProductsManager>(
-              create: (ctx) => ProductsManager(),
-              update: (ctx, authManager, productsManager) {
-                productsManager!.authToken = authManager.authToken;
-                return productsManager;
+          ChangeNotifierProxyProvider<AuthManager, DishesManager>(
+              create: (ctx) => DishesManager(),
+              update: (ctx, authManager, dishesManager) {
+                dishesManager!.authToken = authManager.authToken;
+                return dishesManager;
               }),
           ChangeNotifierProvider(
             create: (ctx) => CartManager(),
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                   secondary: Colors.deepOrange,
                 )),
             home: authManager.isAuth
-                ? const ProductsOverviewScreen()
+                ? const DishesOverviewScreen()
                 : FutureBuilder(
                     future: authManager.tryAutoLogin(),
                     builder: ((context, snapshot) {
@@ -63,23 +63,23 @@ class MyApp extends StatelessWidget {
               ReservationScreen.routeName: (ctx) => const ReservationScreen(),
               CartScreen.routeName: (ctx) => const CartScreen(),
               OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-              UserProductsScreen.routeName: (ctx) => const UserProductsScreen(),
+              UserDishesScreen.routeName: (ctx) => const UserDishesScreen(),
             },
             onGenerateRoute: (settings) {
-              if (settings.name == ProductDetailScreen.routeName) {
-                final productId = settings.arguments as String;
+              if (settings.name == DishDetailScreen.routeName) {
+                final dishId = settings.arguments as String;
                 return MaterialPageRoute(builder: (ctx) {
-                  return ProductDetailScreen(
-                    ctx.read<ProductsManager>().findById(productId),
+                  return DishDetailScreen(
+                    ctx.read<DishesManager>().findById(dishId),
                   );
                 });
               }
-              if (settings.name == EditProductScreen.routeName) {
-                final productId = settings.arguments as String?;
+              if (settings.name == EditDishScreen.routeName) {
+                final dishId = settings.arguments as String?;
                 return MaterialPageRoute(builder: (ctx) {
-                  return EditProductScreen(
-                    productId != null
-                        ? ctx.read<ProductsManager>().findById(productId)
+                  return EditDishScreen(
+                    dishId != null
+                        ? ctx.read<DishesManager>().findById(dishId)
                         : null,
                   );
                 });
@@ -102,11 +102,11 @@ class MyApp extends StatelessWidget {
                   );
                 });
               }
-              if (settings.name == BookProductDetailScreen.routeName) {
-                final productId = settings.arguments as String;
+              if (settings.name == BookDishDetailScreen.routeName) {
+                final dishId = settings.arguments as String;
                 return MaterialPageRoute(builder: (ctx) {
-                  return BookProductDetailScreen(
-                    ctx.watch<ProductsManager>().findById(productId),
+                  return BookDishDetailScreen(
+                    ctx.watch<DishesManager>().findById(dishId),
                   );
                 });
               }

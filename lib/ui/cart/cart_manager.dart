@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../models/cart_item.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 
 class CartManager with ChangeNotifier {
   Map<String, CartItem> _items = {};
 
-  int get productCount {
+  int get dishCount {
     return _items.length;
   }
 
-  List<CartItem> get products {
+  List<CartItem> get dishes {
     return _items.values.toList();
   }
 
-  Iterable<MapEntry<String, CartItem>> get productEntries {
+  Iterable<MapEntry<String, CartItem>> get dishEntries {
     return {..._items}.entries;
   }
 
@@ -26,41 +26,41 @@ class CartManager with ChangeNotifier {
     return total;
   }
 
-  double totalAmountItem(String productId) {
+  double totalAmountItem(String dishId) {
     var total = 0.0;
     _items.forEach((key, cartItem) {
-      if (key == productId) {
+      if (key == dishId) {
         total += cartItem.price * cartItem.quantity;
       }
     });
     return total;
   }
 
-  void addItem(Product product, int i) {
-    if (_items.containsKey(product.id)) {
+  void addItem(Dish dish, int i) {
+    if (_items.containsKey(dish.id)) {
       _items.update(
-        product.id!,
+        dish.id!,
         (existingCartItem) => existingCartItem.copyWith(
           quantity: existingCartItem.quantity + i,
         ),
       );
     } else {
       _items.putIfAbsent(
-          product.id!,
+          dish.id!,
           () => CartItem(
                 id: 'c${DateTime.now().toIso8601String()}',
-                title: product.title,
-                price: product.price,
+                title: dish.title,
+                price: dish.price,
                 quantity: i,
-                imageUrl: product.imageURL,
+                imageUrl: dish.imageURL,
               ));
     }
     notifyListeners();
   }
 
-  void plusQuantity(String productId, CartItem cartItem) {
+  void plusQuantity(String dishId, CartItem cartItem) {
     _items.update(
-      productId,
+      dishId,
       (existingCartItem) => existingCartItem.copyWith(
         quantity: existingCartItem.quantity + 1,
       ),
@@ -69,12 +69,12 @@ class CartManager with ChangeNotifier {
   }
 
   void minusQuantity(
-      BuildContext context, String productId, CartItem cartItem) {
+      BuildContext context, String dishId, CartItem cartItem) {
     _items.forEach((key, cartItem) {
-      if (key == productId) {
+      if (key == dishId) {
         if (cartItem.quantity > 1) {
           _items.update(
-            productId,
+            dishId,
             (existingCartItem) => existingCartItem.copyWith(
               quantity: existingCartItem.quantity - 1,
             ),
@@ -97,7 +97,7 @@ class CartManager with ChangeNotifier {
                   child: const Text('Yes'),
                   onPressed: () {
                     Navigator.of(ctx).pop(true);
-                    removeItem(productId);
+                    removeItem(dishId);
                   },
                 ),
               ],
@@ -109,29 +109,29 @@ class CartManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(String productId) {
-    _items.remove(productId);
+  void removeItem(String dishId) {
+    _items.remove(dishId);
     notifyListeners();
   }
 
-  void removeSingleItem(String productId) {
-    if (!_items.containsKey(productId)) {
+  void removeSingleItem(String dishId) {
+    if (!_items.containsKey(dishId)) {
       return;
     }
-    if (_items[productId]?.quantity as num > 1) {
+    if (_items[dishId]?.quantity as num > 1) {
       _items.update(
-          productId,
+          dishId,
           (existingCartItem) => existingCartItem.copyWith(
                 quantity: existingCartItem.quantity - 1,
               ));
     } else {
-      _items.remove(productId);
+      _items.remove(dishId);
     }
     notifyListeners();
   }
 
-  CartItem? getCartItem(String productId) {
-    return _items[productId];
+  CartItem? getCartItem(String dishId) {
+    return _items[dishId];
   }
 
   void clear() {

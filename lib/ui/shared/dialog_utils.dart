@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../cart/cart_manager.dart';
 
 
@@ -35,7 +35,7 @@ Future<bool?> showConfirmDialog(BuildContext context, String message){
   );
 }
 
-Future<bool?> showAddNumberDialog(BuildContext context, Product product){
+Future<bool?> showAddNumberDialog(BuildContext context, Dish dish){
   final cart = context.read<CartManager>();
   return showDialog(
     context: context,
@@ -125,7 +125,7 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                           ),
                           onPressed: () {
                             Navigator.of(context).pop(true);
-                            cart.addItem(product,i);
+                            cart.addItem(dish,i);
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(
@@ -135,7 +135,7 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                                   action: SnackBarAction(
                                     label: 'UNDO',
                                     onPressed:() {
-                                      cart.removeSingleItem(product.id!);
+                                      cart.removeSingleItem(dish.id!);
                                     },
                                   )
                                 )

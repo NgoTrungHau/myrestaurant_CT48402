@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../../models/table.dart';
-import '../products/products_manager.dart';
-import 'book_products_grid.dart';
+import '../dishes/dishes_manager.dart';
+import 'book_dishes_grid.dart';
 import 'reservations_manager.dart';
 import 'table_item_card.dart';
 
@@ -59,10 +59,10 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget buildTableDetails(ReservationsManager table) {
     return ListView(
-      children: table.productEntries
+      children: table.dishEntries
           .map(
             (entry) => TableItemCard(
-              productId: entry.key,
+              dishId: entry.key,
               tableItem: entry.value,
             ),
           )
@@ -71,13 +71,13 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget buildChooseDetails(ReservationsManager table) {
-    final products = context.select<ProductsManager, List<Product>>(
-        (productsManager) => productsManager.items);
+    final dishes = context.select<DishesManager, List<Dish>>(
+        (dishesManager) => dishesManager.items);
 
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
-      itemCount: products.length,
-      itemBuilder: (ctx, i) => BookProductsGridTile(products[i]),
+      itemCount: dishes.length,
+      itemBuilder: (ctx, i) => BookDishesGridTile(dishes[i]),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 6 / 5,
@@ -115,7 +115,7 @@ class _BookScreenState extends State<BookScreen> {
                         ? null
                         : () {
                             context.read<ReservationsManager>().addReservation(
-                                  table.products,
+                                  table.dishes,
                                   table.totalAmount,
                                   widget.table.title,
                                 );

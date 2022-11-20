@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Product {
+class Dish {
   final String? id;
   final String title;
   final String description;
@@ -8,7 +8,7 @@ class Product {
   final String imageURL;
   final ValueNotifier<bool> _isFavorite;
 
-  Product({
+  Dish({
     this.id,
     required this.title,
     required this.description,
@@ -31,7 +31,7 @@ class Product {
     return _isFavorite;
   }
 
-  Product copyWith({
+  Dish copyWith({
     String? id,
     String? title,
     String? description,
@@ -39,7 +39,7 @@ class Product {
     String? imageURL,
     bool? isFavorite,
   }) {
-    return Product(
+    return Dish(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
@@ -58,8 +58,8 @@ class Product {
     };
   }
 
-  static Product fromJson(Map<String, dynamic> json) {
-    return Product(
+  static Dish fromJson(Map<String, dynamic> json) {
+    return Dish(
       id: json['id'],
       title: json['title'],
       description: json['description'],

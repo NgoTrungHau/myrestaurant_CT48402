@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../cart/cart_manager.dart';
-import 'products_manager.dart';
+import 'dishes_manager.dart';
 
-class ProductDetailScreen extends StatefulWidget {
-  static const routeName = '/product-detail';
-  const ProductDetailScreen(
-    this.product, {
+class DishDetailScreen extends StatefulWidget {
+  static const routeName = '/dish-detail';
+  const DishDetailScreen(
+    this.dish, {
     super.key,
   });
 
-  final Product product;
+  final Dish dish;
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<DishDetailScreen> createState() => _DishDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  Product? product;
+class _DishDetailScreenState extends State<DishDetailScreen> {
+  Dish? dish;
 
   int i = 1;
 
   @override
   void initState() {
     super.initState();
-    product = widget.product;
+    dish = widget.dish;
   }
 
   @override
@@ -34,9 +34,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final cart = context.read<CartManager>();
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.product.title),
+          title: Text(widget.dish.title),
           actions: [
-            buildFavoriteButton(context, product!),
+            buildFavoriteButton(context, dish!),
           ],
         ),
         body: SingleChildScrollView(
@@ -45,14 +45,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 300,
               width: double.infinity,
               child: Image.network(
-                widget.product.imageURL,
+                widget.dish.imageURL,
                 fit: BoxFit.cover,
               )),
           const SizedBox(
             height: 10,
           ),
           Text(
-            '\$${widget.product.price}',
+            '\$${widget.dish.price}',
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 20,
@@ -65,7 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               width: double.infinity,
               child: Text(
-                widget.product.description,
+                widget.dish.description,
                 textAlign: TextAlign.center,
                 softWrap: true,
               )),
@@ -142,7 +142,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             onPressed: () {
               Navigator.of(context).pop(true);
-              cart.addItem(product!, i);
+              cart.addItem(dish!, i);
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(SnackBar(
@@ -151,7 +151,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     action: SnackBarAction(
                       label: 'UNDO',
                       onPressed: () {
-                        cart.removeSingleItem(product!.id!);
+                        cart.removeSingleItem(dish!.id!);
                       },
                     )));
               i = 1;
@@ -159,9 +159,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ])));
   }
-  Widget buildFavoriteButton(BuildContext context, Product product) {
+  Widget buildFavoriteButton(BuildContext context, Dish dish) {
   return ValueListenableBuilder<bool>(
-      valueListenable: product.isFavoriteListenable,
+      valueListenable: dish.isFavoriteListenable,
       builder: (ctx, isFavorite, child) {
         return IconButton(
           icon: Icon(
@@ -169,7 +169,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
           color: Colors.black,
           onPressed: () {
-            ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+            ctx.read<DishesManager>().toggleFavoriteStatus(dish);
           },
         );
       });

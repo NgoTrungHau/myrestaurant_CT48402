@@ -34,9 +34,9 @@ class _ReservationItemState extends State<ReservationTableItem> {
         horizontal: 15,
         vertical: 4,
       ),
-      height: min(widget.reservationItem.productCount * 20.0 + 10, 100),
+      height: min(widget.reservationItem.dishCount * 20.0 + 10, 100),
       child: ListView(
-        children: widget.reservationItem.products
+        children: widget.reservationItem.dishes
             .map(
               (prod) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

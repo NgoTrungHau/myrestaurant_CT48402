@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import 'package:provider/provider.dart';
-import 'edit_product_screen.dart';
-import 'products_manager.dart';
+import 'edit_dish_screen.dart';
+import 'dishes_manager.dart';
 
-class UserProductListTile extends StatelessWidget {
-  final Product product;
-  const UserProductListTile(
-    this.product, {
+class UserDishListTile extends StatelessWidget {
+  final Dish dish;
+  const UserDishListTile(
+    this.dish, {
       super.key,
     }
   );
@@ -15,9 +15,9 @@ class UserProductListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(product.title),
+      title: Text(dish.title),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(product.imageURL),
+        backgroundImage: NetworkImage(dish.imageURL),
       ),
       trailing: SizedBox(
         width: 100,
@@ -35,8 +35,8 @@ class UserProductListTile extends StatelessWidget {
       icon: const Icon(Icons.edit),
       onPressed: () async {
         Navigator.of(context).pushNamed(
-          EditProductScreen.routeName,
-          arguments: product.id,
+          EditDishScreen.routeName,
+          arguments: dish.id,
         );
       },
       color: Theme.of(context).primaryColor,
@@ -46,13 +46,13 @@ class UserProductListTile extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.delete),
       onPressed: () {
-        context.read<ProductsManager>().deleteProduct(product.id!);
+        context.read<DishesManager>().deleteDish(dish.id!);
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             const SnackBar(
               content: Text(
-                'Product deleted',
+                'Dish deleted',
                 textAlign: TextAlign.center,
               )
             )

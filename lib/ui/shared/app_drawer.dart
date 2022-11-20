@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../auth/auth_manager.dart';
 import '../orders/orders_screen.dart';
-import '../products/user_products_screen.dart';
+import '../dishes/user_dishes_screen.dart';
 import '../reservations/reservations_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -47,7 +47,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.edit),
             title: const Text('Manage Dishes'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(UserProductsScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(UserDishesScreen.routeName);
             },
           ),
           const Divider(),

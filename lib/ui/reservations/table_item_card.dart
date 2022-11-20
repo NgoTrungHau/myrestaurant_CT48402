@@ -6,11 +6,11 @@ import '../shared/dialog_utils.dart';
 import 'reservations_manager.dart';
 
 class TableItemCard extends StatefulWidget {
-  final String productId;
+  final String dishId;
   final TableItem tableItem;
 
   const TableItemCard({
-    required this.productId,
+    required this.dishId,
     required this.tableItem,
     super.key,
   });
@@ -54,7 +54,7 @@ class _TableItemCardState extends State<TableItemCard> {
         );
       },
       onDismissed: (direction) {
-        context.read<ReservationsManager>().removeItem(widget.productId);
+        context.read<ReservationsManager>().removeItem(widget.dishId);
       },
       child: buildItemCard(context),
     );
@@ -78,7 +78,7 @@ class _TableItemCardState extends State<TableItemCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text('Price: \$${tableItem?.price}'),
-                Text('Total: \$${table.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
+                Text('Total: \$${table.totalAmountItem(widget.dishId).toStringAsFixed(2)}'),
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
@@ -86,9 +86,9 @@ class _TableItemCardState extends State<TableItemCard> {
               color: Colors.red,
               onPressed: (() {
                 table.minusQuantity(
-                    context, widget.productId, widget.tableItem);
+                    context, widget.dishId, widget.tableItem);
                 setState(() {
-                  tableItem = table.getTableItem(widget.productId);
+                  tableItem = table.getTableItem(widget.dishId);
                   print(tableItem?.quantity);
                 });
               }),
@@ -111,9 +111,9 @@ class _TableItemCardState extends State<TableItemCard> {
               color: Colors.blue,
               icon: new Icon(Icons.add, size: 30),
               onPressed: (() {
-                table.plusQuantity(widget.productId, widget.tableItem);
+                table.plusQuantity(widget.dishId, widget.tableItem);
                 setState(() {
-                  tableItem = table.getTableItem(widget.productId);
+                  tableItem = table.getTableItem(widget.dishId);
                   print(tableItem?.quantity);
                 });
               }),

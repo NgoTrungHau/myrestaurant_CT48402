@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../shared/dialog_utils.dart';
-import 'products_detail_screen.dart';
-import 'products_manager.dart';
+import 'dishes_detail_screen.dart';
+import 'dishes_manager.dart';
 
-class ProductGridTile extends StatelessWidget {
-  const ProductGridTile(
-    this.product, {
+class DishGridTile extends StatelessWidget {
+  const DishGridTile(
+    this.dish, {
     super.key,
   });
 
-  final Product product;
+  final Dish dish;
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +44,19 @@ class ProductGridTile extends StatelessWidget {
                   child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          ProductDetailScreen.routeName,
-                          arguments: product.id,
+                          DishDetailScreen.routeName,
+                          arguments: dish.id,
                         );
                       },
                       child: Image.network(
-                        product.imageURL,
+                        dish.imageURL,
                         width: 200,
                         height: 120,
                         fit: BoxFit.cover,
                       ))),
               const SizedBox(height: 10),
               Text(
-                product.title,
+                dish.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -65,7 +65,7 @@ class ProductGridTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '\$${product.price}',
+                '\$${dish.price}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -75,7 +75,7 @@ class ProductGridTile extends StatelessWidget {
               const SizedBox(height: 3),
               Row(children: <Widget>[
                 ValueListenableBuilder<bool>(
-                    valueListenable: product.isFavoriteListenable,
+                    valueListenable: dish.isFavoriteListenable,
                     builder: (ctx, isFavorite, child) {
                       return IconButton(
                         icon: Icon(
@@ -84,8 +84,8 @@ class ProductGridTile extends StatelessWidget {
                         color: Theme.of(context).colorScheme.secondary,
                         onPressed: () {
                           ctx
-                              .read<ProductsManager>()
-                              .toggleFavoriteStatus(product);
+                              .read<DishesManager>()
+                              .toggleFavoriteStatus(dish);
                         },
                       );
                     }),
@@ -95,7 +95,7 @@ class ProductGridTile extends StatelessWidget {
                     Icons.shopping_cart,
                   ),
                   onPressed: () {
-                    showAddNumberDialog(context, product);
+                    showAddNumberDialog(context, dish);
                   },
                   color: Theme.of(context).colorScheme.secondary,
                 )
@@ -111,7 +111,7 @@ class ProductGridTile extends StatelessWidget {
     return GridTileBar(
         backgroundColor: Colors.black87.withOpacity(0.6),
         leading: ValueListenableBuilder<bool>(
-            valueListenable: product.isFavoriteListenable,
+            valueListenable: dish.isFavoriteListenable,
             builder: (ctx, isFavorite, child) {
               return IconButton(
                 icon: Icon(
@@ -119,12 +119,12 @@ class ProductGridTile extends StatelessWidget {
                 ),
                 color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
-                  ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+                  ctx.read<DishesManager>().toggleFavoriteStatus(dish);
                 },
               );
             }),
         title: Text(
-          product.title,
+          dish.title,
           textAlign: TextAlign.center,
         ),
         trailing: IconButton(
@@ -132,7 +132,7 @@ class ProductGridTile extends StatelessWidget {
             Icons.shopping_cart,
           ),
           onPressed: () {
-            showAddNumberDialog(context, product);
+            showAddNumberDialog(context, dish);
           },
           color: Theme.of(context).colorScheme.secondary,
         ));

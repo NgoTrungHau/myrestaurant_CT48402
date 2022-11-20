@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/auth_token.dart';
-import '../../models/product.dart';
+import '../../models/dish.dart';
 import '../../models/reservation.dart';
 import '../../models/table.dart';
 import '../../models/table_item.dart';
@@ -46,12 +46,12 @@ class ReservationsManager with ChangeNotifier {
 
   Future<void> deleteTable(String id) async {
     final index = _tables.indexWhere((item) => item.id == id);
-    TableB? existingProduct = _tables[index];
+    TableB? existingDish = _tables[index];
     _tables.removeAt(index);
     notifyListeners();
 
     if (!await _tablesService.deleteTable(id)) {
-      _tables.insert(index, existingProduct);
+      _tables.insert(index, existingDish);
       notifyListeners();
     }
   }
@@ -69,15 +69,15 @@ class ReservationsManager with ChangeNotifier {
   }
 
 // tableItem
-  int get productCount {
+  int get dishCount {
     return _items.length;
   }
 
-  List<TableItem> get products {
+  List<TableItem> get dishes {
     return _items.values.toList();
   }
 
-  Iterable<MapEntry<String, TableItem>> get productEntries {
+  Iterable<MapEntry<String, TableItem>> get dishEntries {
     return {..._items}.entries;
   }
 
@@ -89,41 +89,41 @@ class ReservationsManager with ChangeNotifier {
     return total;
   }
 
-  double totalAmountItem(String productId) {
+  double totalAmountItem(String dishId) {
     var total = 0.0;
     _items.forEach((key, tableItem) {
-      if (key == productId) {
+      if (key == dishId) {
         total += tableItem.price * tableItem.quantity;
       }
     });
     return total;
   }
 
-  void addItem(Product product, int i) {
-    if (_items.containsKey(product.id)) {
+  void addItem(Dish dish, int i) {
+    if (_items.containsKey(dish.id)) {
       _items.update(
-        product.id!,
+        dish.id!,
         (existingCartItem) => existingCartItem.copyWith(
           quantity: existingCartItem.quantity + i,
         ),
       );
     } else {
       _items.putIfAbsent(
-          product.id!,
+          dish.id!,
           () => TableItem(
                 id: 'c${DateTime.now().toIso8601String()}',
-                title: product.title,
-                price: product.price,
+                title: dish.title,
+                price: dish.price,
                 quantity: i,
-                imageUrl: product.imageURL,
+                imageUrl: dish.imageURL,
               ));
     }
     notifyListeners();
   }
 
-  void plusQuantity(String productId, TableItem tableItem) {
+  void plusQuantity(String dishId, TableItem tableItem) {
     _items.update(
-      productId,
+      dishId,
       (existingTableItem) => existingTableItem.copyWith(
         quantity: existingTableItem.quantity + 1,
       ),
@@ -132,12 +132,12 @@ class ReservationsManager with ChangeNotifier {
   }
 
   void minusQuantity(
-      BuildContext context, String productId, TableItem tableItem) {
+      BuildContext context, String dishId, TableItem tableItem) {
     _items.forEach((key, tableItem) {
-      if (key == productId) {
+      if (key == dishId) {
         if (tableItem.quantity > 1) {
           _items.update(
-            productId,
+            dishId,
             (existingTableItem) => existingTableItem.copyWith(
               quantity: existingTableItem.quantity - 1,
             ),
@@ -160,7 +160,7 @@ class ReservationsManager with ChangeNotifier {
                   child: const Text('Yes'),
                   onPressed: () {
                     Navigator.of(ctx).pop(true);
-                    removeItem(productId);
+                    removeItem(dishId);
                   },
                 ),
               ],
@@ -172,29 +172,29 @@ class ReservationsManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(String productId) {
-    _items.remove(productId);
+  void removeItem(String dishId) {
+    _items.remove(dishId);
     notifyListeners();
   }
 
-  void removeSingleItem(String productId) {
-    if (!_items.containsKey(productId)) {
+  void removeSingleItem(String dishId) {
+    if (!_items.containsKey(dishId)) {
       return;
     }
-    if (_items[productId]?.quantity as num > 1) {
+    if (_items[dishId]?.quantity as num > 1) {
       _items.update(
-          productId,
+          dishId,
           (existingCartItem) => existingCartItem.copyWith(
                 quantity: existingCartItem.quantity - 1,
               ));
     } else {
-      _items.remove(productId);
+      _items.remove(dishId);
     }
     notifyListeners();
   }
 
-  TableItem? getTableItem(String productId) {
-    return _items[productId];
+  TableItem? getTableItem(String dishId) {
+    return _items[dishId];
   }
 
   void clear() {
@@ -212,13 +212,13 @@ class ReservationsManager with ChangeNotifier {
   }
 
   void addReservation(
-      List<TableItem> tableProducts, double total, String title) async {
+      List<TableItem> tableDishes, double total, String title) async {
     _reservations.insert(
         0,
         ReservationItem(
           id: 'o${DateTime.now().toIso8601String()}',
           amount: total,
-          products: tableProducts,
+          dishes: tableDishes,
           dateTime: DateTime.now(),
           tableTitle: title,
         ));

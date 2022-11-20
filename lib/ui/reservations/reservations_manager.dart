@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/auth_token.dart';
@@ -11,24 +10,7 @@ import '../../services/tables_service.dart';
 class ReservationsManager with ChangeNotifier {
   List<TableB> _tables = [];
   Map<String, TableItem> _items = {};
-  final List<ReservationItem> _reservations = [
-    ReservationItem(
-      id: 'o1',
-      amount: 7.98,
-      products: [
-        TableItem(
-          id: 'c1',
-          title: 'Pho',
-          price: 3.99,
-          quantity: 2,
-          imageUrl:
-              "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
-        ),
-      ],
-      dateTime: DateTime.now(),
-      tableTitle: 'Table 201',
-    )
-  ];
+  final List<ReservationItem> _reservations = [];
 // Table
   final TablesService _tablesService;
 

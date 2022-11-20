@@ -3,7 +3,6 @@ import 'package:flutter_application_myrestaurant/ui/screen.dart';
 import 'package:provider/provider.dart';
 import 'products_grid.dart';
 import '../shared/app_drawer.dart';
-import '../cart/cart_manager.dart';
 import 'top_right_badge.dart';
 
 enum FilterOptions { favorites, all }

@@ -122,7 +122,6 @@ class _EditTableScreenState extends State<EditTableScreen>{
       },
       onSaved: (value) {
         _editedTable = _editedTable.copyWith(title: value);
-        print(_editedTable.title); 
       },
     );
   }
@@ -147,7 +146,6 @@ class _EditTableScreenState extends State<EditTableScreen>{
       },
       onSaved: (value) {
         _editedTable = _editedTable.copyWith(status: int.parse(value!));
-        print(_editedTable.status);
       }
     );
   }

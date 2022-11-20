@@ -154,7 +154,6 @@ class _BookProductDetailScreenState extends State<BookProductDetailScreen> {
               ),
               onPressed: () {
                 Navigator.of(context).pop(true);
-                print(product);
                 cart.addItem(product!,i);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()

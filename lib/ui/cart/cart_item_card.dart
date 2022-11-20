@@ -82,7 +82,7 @@ class _CartItemCardState extends State<CartItemCard> {
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
-              icon: new Icon(Icons.remove, size: 30),
+              icon: const Icon(Icons.remove, size: 30),
               color: Colors.red,
               onPressed: (() {
                 cart.minusQuantity(context, widget.productId, widget.cartItem);
@@ -92,7 +92,7 @@ class _CartItemCardState extends State<CartItemCard> {
                 });
               }),
             ),
-            Container(
+            SizedBox(
               width: 20.0,
               height: 24.0,
               child: Center(
@@ -108,7 +108,7 @@ class _CartItemCardState extends State<CartItemCard> {
             ),
             IconButton(
               color: Colors.blue,
-              icon: new Icon(Icons.add, size: 30),
+              icon: const Icon(Icons.add, size: 30),
               onPressed: (() {
                 cart.plusQuantity(widget.productId, widget.cartItem);
                 setState(() {

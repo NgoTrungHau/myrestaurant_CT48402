@@ -25,6 +25,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   void initState() {
+    super.initState();
     product = widget.product;
   }
 
@@ -116,7 +117,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             IconButton(
               color: Colors.blue,
-              icon: new Icon(Icons.add, size: 40),
+              icon: const Icon(Icons.add, size: 40),
               onPressed: (() {
                 if (i < 99) {
                   setState(() {
@@ -141,7 +142,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             onPressed: () {
               Navigator.of(context).pop(true);
-              print(product);
               cart.addItem(product!, i);
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()

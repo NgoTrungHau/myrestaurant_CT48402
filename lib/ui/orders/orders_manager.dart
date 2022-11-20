@@ -4,23 +4,7 @@ import '../../models/cart_item.dart';
 import '../../models/order_item.dart';
 
 class OrdersManager with ChangeNotifier {
-  final List<OrderItem> _orders = [
-    OrderItem(
-      id: 'o1',
-      amount: 7.98,
-      products: [
-        CartItem(
-          id: 'c1',
-          title: 'Pho',
-          price: 3.99,
-          quantity: 2,
-          imageUrl:
-              "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250313281452.jpg",
-        )
-      ],
-      dateTime: DateTime.now(),
-    )
-  ];
+  final List<OrderItem> _orders = [];
   int get orderCount {
     return _orders.length;
   }

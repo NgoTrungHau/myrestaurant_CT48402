@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'table_grid.dart';
 import 'reservations_manager.dart';
-import 'edit_table_screen.dart';
-
 class TableGridTile extends StatefulWidget {
   const TableGridTile(
     {super.key});

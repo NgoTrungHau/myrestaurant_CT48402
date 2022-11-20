@@ -29,9 +29,7 @@ class _BookScreenState extends State<BookScreen> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      table = widget.table;
-    });
+    table = widget.table;
   }
 
   @override
@@ -51,7 +49,7 @@ class _BookScreenState extends State<BookScreen> {
           Expanded(
             child: buildTableDetails(table),
           ),
-          const Text('Choosing dish',
+          const Text('Choose dish',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           Expanded(
             child: buildChooseDetails(table),
@@ -74,7 +72,7 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget buildChooseDetails(ReservationsManager table) {
     final products = context.select<ProductsManager, List<Product>>(
-      (productsManager) => productsManager.items);
+        (productsManager) => productsManager.items);
 
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
@@ -134,6 +132,7 @@ class _BookScreenState extends State<BookScreen> {
                   )
                 ])));
   }
+
   Widget buildDeleteAllButton(ReservationsManager table) {
     return IconButton(
       icon: const Icon(Icons.delete),
@@ -143,5 +142,3 @@ class _BookScreenState extends State<BookScreen> {
     );
   }
 }
-
-

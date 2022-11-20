@@ -17,7 +17,7 @@ class UserProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your products'),
+        title: const Text('Your dishes'),
         actions: <Widget>[
           buildAddButton(context),
         ],
@@ -33,7 +33,7 @@ class UserProductsScreen extends StatelessWidget {
             );
           }
           return RefreshIndicator(
-            onRefresh: () async => print('refresh products'),
+            onRefresh: () async => print('refresh dishes'),
             child: buildUserProductListView(),
           );
         }

@@ -78,8 +78,7 @@ class _TableItemCardState extends State<TableItemCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text('Price: \$${tableItem?.price}'),
-                Text(
-                    'Total: \$${table.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
+                Text('Total: \$${table.totalAmountItem(widget.productId).toStringAsFixed(2)}'),
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
@@ -94,7 +93,7 @@ class _TableItemCardState extends State<TableItemCard> {
                 });
               }),
             ),
-            Container(
+            SizedBox(
               width: 20.0,
               height: 24.0,
               child: Center(

@@ -60,7 +60,7 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                       }
                     }),
                   ),
-                  Container(
+                  SizedBox(
                     width: 50.0,
                     height: 24.0,
                     child: Center(
@@ -115,7 +115,7 @@ Future<bool?> showAddNumberDialog(BuildContext context, Product product){
                             i=1;
                           },
                         ),
-                        SizedBox(width: 80),
+                        const SizedBox(width: 80),
                         TextButton(
                           child: const Text(
                             'Add to cart',

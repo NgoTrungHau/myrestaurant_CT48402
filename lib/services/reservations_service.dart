@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 
 import '../models/auth_token.dart';
 import '../models/reservation.dart';
-import '../models/table.dart';
 
 import 'firebase_service.dart';
 

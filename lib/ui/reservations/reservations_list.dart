@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_myrestaurant/ui/reservations/reservations_manager.dart';
-import 'package:flutter_application_myrestaurant/ui/reservations/resevations_item_card.dart';
-import '../../models/reservation.dart';
+import 'package:flutter_application_myrestaurant/ui/reservations/reservations_item_card.dart';
 
 import 'package:provider/provider.dart';
 
@@ -10,7 +9,6 @@ class ReservationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('building reservations');
     return Consumer<ReservationsManager>(
         builder: (ctx, reservationsManager, child) {
       return ListView.builder(

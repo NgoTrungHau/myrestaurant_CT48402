@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'ui/reservations/book_products_detail_screen.dart';
 import 'ui/screen.dart';
 
 Future<void> main() async {
@@ -95,10 +96,17 @@ class MyApp extends StatelessWidget {
               }
               if (settings.name == BookScreen.routeName) {
                 final tableId = settings.arguments as String;
-                final productId = settings.arguments as String;
                 return MaterialPageRoute(builder: (ctx) {
                   return BookScreen(
                     ctx.read<ReservationsManager>().findById(tableId),
+                  );
+                });
+              }
+              if (settings.name == BookProductDetailScreen.routeName) {
+                final productId = settings.arguments as String;
+                return MaterialPageRoute(builder: (ctx) {
+                  return BookProductDetailScreen(
+                    ctx.watch<ProductsManager>().findById(productId),
                   );
                 });
               }

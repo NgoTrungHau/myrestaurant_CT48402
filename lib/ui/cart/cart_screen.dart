@@ -24,7 +24,11 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
+        actions: [
+          buildDeleteAllButton(cart)
+        ],
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: Column(
         children: <Widget>[
           buildCartSummary(cart, context),
@@ -93,5 +97,13 @@ class _CartScreenState extends State<CartScreen> {
                         )),
                   )
                 ])));
+  }
+  Widget buildDeleteAllButton(CartManager cart) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        cart.clear();
+      },
+    );
   }
 }

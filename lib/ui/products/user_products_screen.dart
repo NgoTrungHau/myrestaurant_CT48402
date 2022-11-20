@@ -23,6 +23,7 @@ class UserProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: const AppDrawer(),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: FutureBuilder(
         future: _refreshProducts(context),
         builder: (ctx, snapshot) {

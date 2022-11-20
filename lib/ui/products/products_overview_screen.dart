@@ -14,6 +14,7 @@ class ProductsOverviewScreen extends StatefulWidget {
   @override
   State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
 }
+
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   final _showOnlyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
@@ -35,16 +36,16 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: const AppDrawer(),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: FutureBuilder(
         future: _fetchProducts,
-        builder:(context, snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return ValueListenableBuilder<bool>(
-              valueListenable: _showOnlyFavorites,
-              builder: (context, onlyFavorites, child) {
-                return ProductsGrid(onlyFavorites);
-              }
-            );
+                valueListenable: _showOnlyFavorites,
+                builder: (context, onlyFavorites, child) {
+                  return ProductsGrid(onlyFavorites);
+                });
           }
           return const Center(
             child: CircularProgressIndicator(),
@@ -55,47 +56,41 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   }
 
   Widget buildShoppingCartIcon() {
-    return Consumer<CartManager>(
-      builder: (ctx, cartManager, child) {
-        return TopRightBadge(
+    return Consumer<CartManager>(builder: (ctx, cartManager, child) {
+      return TopRightBadge(
           data: cartManager.productCount,
           child: IconButton(
             icon: const Icon(
-            Icons.shopping_cart,
-          ),
-          onPressed: (() {
-            Navigator.of(ctx).pushNamed(CartScreen.routeName);
-          }),
-          )
-        );
-      }
-    );
+              Icons.shopping_cart,
+            ),
+            onPressed: (() {
+              Navigator.of(ctx).pushNamed(CartScreen.routeName);
+            }),
+          ));
+    });
   }
 
   Widget buildProductFilterMenu() {
     return PopupMenuButton(
-      onSelected: (FilterOptions selectedValue) {
-        if (selectedValue == FilterOptions.favorites) {
-          _showOnlyFavorites.value = true;
-        } else {
-          _showOnlyFavorites.value = false;
-        }
-      },
-      icon: const Icon(
-        Icons.more_vert,
-      ),
-      itemBuilder: (ctx) => [
-        const PopupMenuItem(
-          value: FilterOptions.favorites,
-          child: Text("Only favorites"),
+        onSelected: (FilterOptions selectedValue) {
+          if (selectedValue == FilterOptions.favorites) {
+            _showOnlyFavorites.value = true;
+          } else {
+            _showOnlyFavorites.value = false;
+          }
+        },
+        icon: const Icon(
+          Icons.more_vert,
         ),
-        const PopupMenuItem(
-          value: FilterOptions.all,
-          child: Text('Show All'),
-        )
-      ]
-    );
+        itemBuilder: (ctx) => [
+              const PopupMenuItem(
+                value: FilterOptions.favorites,
+                child: Text("Only favorites"),
+              ),
+              const PopupMenuItem(
+                value: FilterOptions.all,
+                child: Text('Show All'),
+              )
+            ]);
   }
-
-
 }

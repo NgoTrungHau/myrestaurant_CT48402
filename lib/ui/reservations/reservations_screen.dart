@@ -45,6 +45,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
           buildAddButton(context),
         ],
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       drawer: const AppDrawer(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

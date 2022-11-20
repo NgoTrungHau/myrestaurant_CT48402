@@ -166,7 +166,7 @@ class ReservationsManager with ChangeNotifier {
             builder: (ctx) => AlertDialog(
               title: const Text('Are you sure?'),
               content:
-                  const Text('Do you want to remove the item from the cart?'),
+                  const Text('Do you want to remove this dish from the table?'),
               actions: <Widget>[
                 TextButton(
                   child: const Text('No'),

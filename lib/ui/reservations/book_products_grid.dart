@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../models/product.dart';
-import '../products/products_detail_screen.dart';
-import '../products/products_manager.dart';
+import 'book_products_detail_screen.dart';
 import 'reservations_manager.dart';
 
 class BookProductsGridTile extends StatefulWidget {
@@ -32,7 +32,7 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
             child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(
-                    ProductDetailScreen.routeName,
+                    BookProductDetailScreen.routeName,
                     arguments: widget.product.id,
                   );
                 },
@@ -43,40 +43,33 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
   }
 
   Widget buildGridFooterBar(BuildContext context) {
-    return GridTileBar(
-        backgroundColor: Colors.black87.withOpacity(0.6),
-        leading: ValueListenableBuilder<bool>(
-            valueListenable: widget.product.isFavoriteListenable,
-            builder: (ctx, isFavorite, child) {
-              return IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                ),
-                color: Theme.of(context).colorScheme.secondary,
-                onPressed: () {
-                  ctx
-                      .read<ProductsManager>()
-                      .toggleFavoriteStatus(widget.product);
-                },
-              );
-            }),
-        title: Text(
-          widget.product.title,
-          textAlign: TextAlign.center,
-        ),
+    return Container(
+      padding: const EdgeInsets.all(0),
+              color: Colors.black.withOpacity(0.5),
+              height: 35,
+      child: GridTileBar(
+        title: Text(widget.product.title,
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        subtitle: Text('\$${widget.product.price}',
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 207, 207, 207),
+            )),
         trailing: IconButton(
           icon: const Icon(
-            Icons.shopping_cart,
+            Icons.add_circle_outline,
           ),
           onPressed: () {
             final cart = context.read<ReservationsManager>();
-            setState(() {
-              cart.addItem(widget.product, 1);
-            });
+            cart.addItem(widget.product, 1);
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
-                  content: const Text('Item added to cart'),
+                  content: const Text('Dish added to table'),
                   duration: const Duration(seconds: 2),
                   action: SnackBarAction(
                     label: 'UNDO',
@@ -86,6 +79,8 @@ class _BookProductsGridTileState extends State<BookProductsGridTile> {
                   )));
           },
           color: Theme.of(context).colorScheme.secondary,
-        ));
+        ),
+      ),
+    );
   }
 }

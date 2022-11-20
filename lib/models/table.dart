@@ -36,4 +36,5 @@ class TableB {
       status: json['status'], 
     );
   }
+
 }

@@ -29,7 +29,6 @@ class _TableGridTileState extends State<TableGridTile> {
           Expanded(
             child: Consumer<ReservationsManager>(
               builder: (ctx, reservationsManager, child) {
-                print(reservationsManager.tableCount);
                 return GridView.builder(
                   padding: const EdgeInsets.all(10.0),
                   itemCount: reservationsManager.tableCount,

@@ -16,6 +16,7 @@ class OrdersScreen extends StatelessWidget {
         title: const Text('Yours Orders'),
       ),
       drawer: const AppDrawer(),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: Consumer<OrdersManager>(
         builder: (ctx, ordersManager, child) {
           return ListView.builder(

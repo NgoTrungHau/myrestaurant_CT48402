@@ -40,7 +40,11 @@ class _BookScreenState extends State<BookScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.table.title),
+          actions: <Widget>[
+            buildDeleteAllButton(table),
+          ],
         ),
+        backgroundColor: const Color.fromARGB(255, 255, 237, 205),
         body: Column(children: <Widget>[
           buildCartSummary(table, context),
           const SizedBox(height: 10),
@@ -70,22 +74,15 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget buildChooseDetails(ReservationsManager table) {
     final products = context.select<ProductsManager, List<Product>>(
-        (productsManager) => productsManager.items);
-    // final tableItem = context.select<ReservationsManager, List<TableItem>>(
-    //   (reservationsManager) => reservationsManager.items
-    // );
-    // return ListView.builder(
-    //   padding: const EdgeInsets.all(10.0),
-    //   itemCount: products.length,
-    //   itemBuilder: (ctx, i) => FoodListTile(products[i]),
-    // );
+      (productsManager) => productsManager.items);
+
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
       itemBuilder: (ctx, i) => BookProductsGridTile(products[i]),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
+        childAspectRatio: 6 / 5,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
@@ -137,4 +134,14 @@ class _BookScreenState extends State<BookScreen> {
                   )
                 ])));
   }
+  Widget buildDeleteAllButton(ReservationsManager table) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        table.clear();
+      },
+    );
+  }
 }
+
+

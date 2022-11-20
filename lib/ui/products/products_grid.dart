@@ -16,14 +16,14 @@ class ProductsGrid extends StatelessWidget {
             ? productsManager.favoriteItems
             : productsManager.items);
     return GridView.builder(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(15.0),
       itemCount: products.length,
       itemBuilder: (ctx, i) => ProductGridTile(products[i]),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        childAspectRatio: 14 / 21,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 20,
       ),
     );
   }

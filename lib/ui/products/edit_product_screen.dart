@@ -107,6 +107,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
           ),
         ],
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: _isLoading
           ? const Center(
             child: CircularProgressIndicator()
@@ -121,6 +122,7 @@ class _EditProductScreenState extends State<EditProductScreen>{
                   buildPriceField(),
                   buildDescriptionField(),
                   buildProductPreview(),
+                  buildImageURLField(),
                 ]
               )
             )
@@ -198,16 +200,16 @@ class _EditProductScreenState extends State<EditProductScreen>{
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Container(
-          width: 100,
+          width: 180,
           height: 100,
           margin: const EdgeInsets.only(
             top: 8,
-            right: 10,
+            right: 0,
           ),
           decoration: BoxDecoration(
             border: Border.all(
-              width: 1,
-              color: Colors.grey,
+              width: 0,
+              color: const Color.fromARGB(255, 255, 237, 205),
             ),
           ),
           child: _imageUrlController.text.isEmpty
@@ -218,9 +220,6 @@ class _EditProductScreenState extends State<EditProductScreen>{
                   fit: BoxFit.cover,
                 )
               )
-        ),
-        Expanded(
-          child: buildImageURLField(),
         ),
       ],
     );

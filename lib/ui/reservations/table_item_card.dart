@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_myrestaurant/models/table.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/cart_item.dart';
-import '../../models/product.dart';
 import '../../models/table_item.dart';
-import '../../ui/cart/cart_manager.dart';
 import '../shared/dialog_utils.dart';
 import 'reservations_manager.dart';
 
@@ -54,7 +50,7 @@ class _TableItemCardState extends State<TableItemCard> {
       confirmDismiss: (direction) {
         return showConfirmDialog(
           context,
-          'Do you want to remove the item from the cart?',
+          'Do you want to remove the item from the table?',
         );
       },
       onDismissed: (direction) {
@@ -87,7 +83,7 @@ class _TableItemCardState extends State<TableItemCard> {
               ]),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             IconButton(
-              icon: new Icon(Icons.remove, size: 30),
+              icon: const Icon(Icons.remove, size: 30),
               color: Colors.red,
               onPressed: (() {
                 table.minusQuantity(

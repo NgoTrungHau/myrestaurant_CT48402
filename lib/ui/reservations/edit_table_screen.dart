@@ -89,6 +89,7 @@ class _EditTableScreenState extends State<EditTableScreen>{
           ),
         ],
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 237, 205),
       body: _isLoading
           ? const Center(
             child: CircularProgressIndicator()

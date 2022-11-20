@@ -8,63 +8,133 @@ import 'products_manager.dart';
 class ProductGridTile extends StatelessWidget {
   const ProductGridTile(
     this.product, {
-      super.key,
-    }
-  );
+    super.key,
+  });
 
   final Product product;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        footer: buildGridFooterBar(context),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              ProductDetailScreen.routeName,
-              arguments: product.id,
-            );
-          },
-          child: Image.network(
-            product.imageURL,
-            fit: BoxFit.cover,
-          )
-        )
-      )
+    return Card(
+      elevation: 10,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 5.0,
+                offset: Offset(0, 10),
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          ProductDetailScreen.routeName,
+                          arguments: product.id,
+                        );
+                      },
+                      child: Image.network(
+                        product.imageURL,
+                        width: 200,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ))),
+              const SizedBox(height: 10),
+              Text(
+                product.title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '\$${product.price}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Row(children: <Widget>[
+                ValueListenableBuilder<bool>(
+                    valueListenable: product.isFavoriteListenable,
+                    builder: (ctx, isFavorite, child) {
+                      return IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                        ),
+                        color: Theme.of(context).colorScheme.secondary,
+                        onPressed: () {
+                          ctx
+                              .read<ProductsManager>()
+                              .toggleFavoriteStatus(product);
+                        },
+                      );
+                    }),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                  ),
+                  onPressed: () {
+                    showAddNumberDialog(context, product);
+                  },
+                  color: Theme.of(context).colorScheme.secondary,
+                )
+              ]),
+            ],
+          ),
+        ),
+      ),
     );
   }
-  Widget buildGridFooterBar(BuildContext context){
+
+  Widget buildGridFooterBar(BuildContext context) {
     return GridTileBar(
-      backgroundColor: Colors.black87.withOpacity(0.6),
-      leading: ValueListenableBuilder<bool>(
-        valueListenable: product.isFavoriteListenable,
-        builder: (ctx, isFavorite, child) {
-          return IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-            ),
-            color: Theme.of(context).colorScheme.secondary,
-            onPressed: () {
-              ctx.read<ProductsManager>().toggleFavoriteStatus(product);
-            },
-          );
-        }
-      ),
-      title: Text(
-        product.title,
-        textAlign: TextAlign.center,
-      ),
-      trailing: IconButton(
-        icon: const Icon(
-          Icons.shopping_cart,
+        backgroundColor: Colors.black87.withOpacity(0.6),
+        leading: ValueListenableBuilder<bool>(
+            valueListenable: product.isFavoriteListenable,
+            builder: (ctx, isFavorite, child) {
+              return IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                ),
+                color: Theme.of(context).colorScheme.secondary,
+                onPressed: () {
+                  ctx.read<ProductsManager>().toggleFavoriteStatus(product);
+                },
+              );
+            }),
+        title: Text(
+          product.title,
+          textAlign: TextAlign.center,
         ),
-        onPressed: () {  
-          showAddNumberDialog(context,product);
-        },
-        color: Theme.of(context).colorScheme.secondary,
-      )
-    );
+        trailing: IconButton(
+          icon: const Icon(
+            Icons.shopping_cart,
+          ),
+          onPressed: () {
+            showAddNumberDialog(context, product);
+          },
+          color: Theme.of(context).colorScheme.secondary,
+        ));
   }
 }
